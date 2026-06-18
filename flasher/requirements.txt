@@ -1,0 +1,8 @@
+# Runtime dependencies for the SlimeVR PCBA flashing tool.
+textual>=0.79
+pyserial>=3.5
+esptool>=4.8
+jsonschema>=4.22
+
+# Development / test dependencies.
+pytest>=8.0

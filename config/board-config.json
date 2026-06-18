@@ -1,0 +1,58 @@
+{
+	"$schema": "board-config.schema.json",
+	"toolchain": "platformio",
+    "type": "BOARD_NODEMCU",
+    "tests": [
+        "probes/imu/lsm6dsv/lsm6dsv_smoke_test.cpp"
+    ],
+    "productionVerify": {
+        "bootFragments": [
+            "[INFO ] [SlimeVR] SlimeVR",
+            "[INFO ] [SensorManager] Sensor 0 configured"
+        ],
+        "postBootDelaySeconds": 3,
+        "expectedSensor0Imu": "LSM6DSV",
+        "minWifiNetworks": 1
+    },
+	"defaults": {
+		"BOARD_NODEMCU": {
+			"values": {
+				"SENSORS": [
+					{
+						"protocol": "I2C",
+						"imu": "IMU_LSM6DSV",
+						"int": "D5",
+						"rotation": "DEG_0",
+						"scl": "D1",
+						"sda": "D2"
+					},
+					{
+						"protocol": "I2C",
+						"imu": "IMU_AUTO",
+						"int": "D6",
+						"rotation": "DEG_270",
+						"scl": "D1",
+						"sda": "D2"
+					}
+				],
+				"BATTERY": {
+					"type": "BAT_EXTERNAL",
+					"r1": 100,
+					"r2": 220,
+					"shieldR": 180,
+					"pin": "A0"
+				},
+				"LED": {
+					"LED_PIN": "2",
+					"LED_INVERTED": true
+				}
+			},
+			"flashingRules": {
+				"applicationOffset": 0,
+				"needBootPress": false,
+				"needManualReboot": false,
+				"shouldOnlyUseDefaults": false
+			}
+		}
+    }
+}

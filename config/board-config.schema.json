@@ -1,0 +1,72 @@
+{
+	"$id": "board-config.schema.json",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "SlimeVR flashing-tool board configuration",
+	"description": "Manufacturing flashing/verification config. Reuses the firmware board-defaults schema for the board values and adds the build target plus verification probes.",
+
+	"type": "object",
+	"properties": {
+		"$schema": { "type": "string" },
+		"toolchain": {
+			"type": "string",
+			"enum": ["platformio"]
+		},
+		"type": {
+			"$ref": "board-defaults.schema.json#/$defs/BOARD_TYPES",
+			"description": "PlatformIO environment / board to build and flash."
+		},
+		"tests": {
+			"type": "array",
+			"items": { "type": "string" },
+			"minItems": 1,
+			"description": "Verification probe source paths (relative to this repo root, under probes/) flashed in order before shipping firmware."
+		},
+		"productionVerify": {
+			"type": "object",
+			"description": "Interactive serial verification after production firmware is flashed. Omit to skip production verification.",
+			"properties": {
+				"bootFragments": {
+					"type": "array",
+					"items": { "type": "string" },
+					"minItems": 1,
+					"description": "Serial line fragments that must appear after boot (initial and post-factory-reset)."
+				},
+				"postBootDelaySeconds": {
+					"type": "number",
+					"minimum": 0,
+					"default": 3,
+					"description": "Seconds to wait after boot fragments are seen before sending serial commands."
+				},
+				"bootTimeoutSeconds": {
+					"type": "number",
+					"exclusiveMinimum": 0,
+					"default": 30,
+					"description": "Seconds to wait for boot fragments after reset."
+				},
+				"expectedSensor0Imu": {
+					"type": "string",
+					"minLength": 1,
+					"description": "IMU name Sensor[0] must report (e.g. LSM6DSV)."
+				},
+				"minWifiNetworks": {
+					"type": "integer",
+					"minimum": 1,
+					"default": 1,
+					"description": "Minimum WiFi networks GET WIFISCAN must report (count >= this value)."
+				}
+			},
+			"required": ["bootFragments", "expectedSensor0Imu"]
+		},
+		"defaults": {
+			"type": "object",
+			"propertyNames": {
+				"$ref": "board-defaults.schema.json#/$defs/BOARD_TYPES"
+			},
+			"additionalProperties": {
+				"$ref": "board-defaults.schema.json#/$defs/BoardConfig"
+			},
+			"description": "Board values block (same shape as board-defaults.json) injected at build time via SLIMEVR_OVERRIDE_DEFAULTS."
+		}
+	},
+	"required": ["toolchain", "type", "tests", "defaults"]
+}

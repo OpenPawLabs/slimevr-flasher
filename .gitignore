@@ -214,5 +214,11 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Streamlit
-.streamlit/secrets.toml
+
+# Flasher cache and PlatformIO build artifacts.
+.cache/
+.pio/
+probes/__pycache__/
+
+# QA traceability output (appended at runtime).
+qa-results.csv
