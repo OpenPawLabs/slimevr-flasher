@@ -15,6 +15,25 @@
 			"$ref": "board-defaults.schema.json#/$defs/BOARD_TYPES",
 			"description": "PlatformIO environment / board to build and flash."
 		},
+		"branding": {
+			"type": "object",
+			"description": "Compile-time branding and OTA update identifiers passed as PlatformIO build flags.",
+			"properties": {
+				"VENDOR_NAME": { "type": "string", "minLength": 1 },
+				"VENDOR_URL": { "type": "string", "minLength": 1 },
+				"PRODUCT_NAME": { "type": "string", "minLength": 1 },
+				"UPDATE_ADDRESS": { "type": "string", "minLength": 1 },
+				"UPDATE_NAME": { "type": "string", "minLength": 1 }
+			},
+			"required": [
+				"VENDOR_NAME",
+				"VENDOR_URL",
+				"PRODUCT_NAME",
+				"UPDATE_ADDRESS",
+				"UPDATE_NAME"
+			],
+			"additionalProperties": false
+		},
 		"tests": {
 			"type": "array",
 			"items": { "type": "string" },
@@ -68,5 +87,5 @@
 			"description": "Board values block (same shape as board-defaults.json) injected at build time via SLIMEVR_OVERRIDE_DEFAULTS."
 		}
 	},
-	"required": ["toolchain", "type", "tests", "defaults"]
+	"required": ["toolchain", "type", "branding", "tests", "defaults"]
 }

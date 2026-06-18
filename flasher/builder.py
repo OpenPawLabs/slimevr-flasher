@@ -28,12 +28,6 @@ CACHE_DIR = FLASHER_ROOT / ".cache" / "bins"
 
 LineSink = Optional[Callable[[str], None]]
 
-OPENPAW_BRANDING_FLAGS = (
-    "-D VENDOR_NAME='\"OpenPaw Labs\"' "
-    "-D VENDOR_URL='\"https://openpawlabs.com\"' "
-    "-D PRODUCT_NAME='\"OpenPaw Tracker\"'"
-)
-
 
 class BuildError(RuntimeError):
     """Raised when a PlatformIO build fails or produces no firmware."""
@@ -118,7 +112,7 @@ def _cache(src: Path, name: str) -> Path:
 def _production_env_overrides(config: BoardConfig) -> dict[str, str]:
     return {
         "SLIMEVR_OVERRIDE_DEFAULTS": json.dumps(config.values),
-        "PLATFORMIO_BUILD_FLAGS": OPENPAW_BRANDING_FLAGS,
+        "PLATFORMIO_BUILD_FLAGS": config.branding_build_flags,
     }
 
 

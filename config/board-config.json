@@ -2,6 +2,13 @@
 	"$schema": "board-config.schema.json",
 	"toolchain": "platformio",
     "type": "BOARD_NODEMCU",
+    "branding": {
+        "VENDOR_NAME": "OpenPaw Labs",
+        "VENDOR_URL": "https://openpawlabs.com",
+        "PRODUCT_NAME": "OpenPaw Tracker (BB-LSM6DSV)",
+        "UPDATE_ADDRESS": "OpenPawLabs/openpaw-tracker-firmware",
+        "UPDATE_NAME": "BOARD_SLIMEVR_OPENPAW_BLUEBERRY-firmware"
+    },
     "tests": [
         "probes/imu/lsm6dsv/lsm6dsv_smoke_test.cpp"
     ],
@@ -23,14 +30,6 @@
 						"imu": "IMU_LSM6DSV",
 						"int": "D5",
 						"rotation": "DEG_0",
-						"scl": "D1",
-						"sda": "D2"
-					},
-					{
-						"protocol": "I2C",
-						"imu": "IMU_AUTO",
-						"int": "D6",
-						"rotation": "DEG_270",
 						"scl": "D1",
 						"sda": "D2"
 					}

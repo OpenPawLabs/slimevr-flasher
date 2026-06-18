@@ -15,6 +15,8 @@ def test_real_config_loads():
     assert bc.tests
     assert "SENSORS" in bc.values
     assert "applicationOffset" in bc.flashing_rules
+    assert bc.branding["VENDOR_NAME"] == "OpenPaw Labs"
+    assert bc.firmware_filename == "BOARD_SLIMEVR_OPENPAW_BLUEBERRY-firmware.bin"
 
 
 def test_production_verify_loaded():

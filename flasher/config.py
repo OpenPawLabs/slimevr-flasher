@@ -39,17 +39,42 @@ class ProductionVerifyConfig:
     min_wifi_networks: int = 1
 
 
+BRANDING_KEYS = (
+    "VENDOR_NAME",
+    "VENDOR_URL",
+    "PRODUCT_NAME",
+    "UPDATE_ADDRESS",
+    "UPDATE_NAME",
+)
+
+
 @dataclass(frozen=True)
 class BoardConfig:
     """A validated flashing-tool configuration."""
 
     path: Path
     board_type: str
+    branding: dict[str, str]
     tests: list[str]
     production_verify: ProductionVerifyConfig | None
     values: dict[str, Any]
     flashing_rules: dict[str, Any]
     raw: dict[str, Any]
+
+    @property
+    def branding_build_flags(self) -> str:
+        return branding_build_flags(self.branding)
+
+    @property
+    def firmware_filename(self) -> str:
+        return f"{self.branding['UPDATE_NAME']}.bin"
+
+
+def branding_build_flags(branding: dict[str, str]) -> str:
+    """Format branding values as PlatformIO ``-D`` build flags."""
+    return " ".join(
+        f"-D {key}='\"{branding[key]}\"'" for key in BRANDING_KEYS
+    )
 
 
 def _load_json(path: Path) -> dict:
@@ -120,6 +145,7 @@ def load_board_config(
     return BoardConfig(
         path=config_path,
         board_type=board_type,
+        branding=dict(raw["branding"]),
         tests=tests,
         production_verify=production_verify,
         values=entry["values"],

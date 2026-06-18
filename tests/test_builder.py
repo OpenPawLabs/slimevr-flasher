@@ -24,6 +24,9 @@ def test_production_env_includes_openpaw_branding():
 
     config = load_board_config()
     env = builder._production_env_overrides(config)
-    assert "OpenPaw Labs" in env["PLATFORMIO_BUILD_FLAGS"]
-    assert "https://openpawlabs.com" in env["PLATFORMIO_BUILD_FLAGS"]
-    assert "OpenPaw Tracker" in env["PLATFORMIO_BUILD_FLAGS"]
+    flags = env["PLATFORMIO_BUILD_FLAGS"]
+    assert "OpenPaw Labs" in flags
+    assert "https://openpawlabs.com" in flags
+    assert "OpenPaw Tracker" in flags
+    assert config.branding["UPDATE_NAME"] in flags
+    assert env["PLATFORMIO_BUILD_FLAGS"] == config.branding_build_flags
